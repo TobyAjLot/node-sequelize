@@ -76,4 +76,18 @@ app.post("/create-order/:customerId", async (req, res) => {
   }
 });
 
+app.get("/orders/:customerId", async (req, res) => {
+  const { customerId } = req.params;
+
+  try {
+    // const customer = await Customer.findByPk(customerId)
+    const orders = await Order.findAll({ where: { customerId: customerId } });
+
+    res.status(200).send(orders);
+  } catch (error) {
+    console.error("Error finding Customer Orders:", error);
+    res.status(500).send("Error finding Customer Orders");
+  }
+});
+
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}...`));
